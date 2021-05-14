@@ -46,7 +46,8 @@ class Game extends React.Component {
     this.state={
       history: [{squares: Array(9).fill(null)}],
       xIsNext: true,
-      stepNumber: 0
+      stepNumber: 0,
+      nullcount: 9
     };
   }
 
@@ -64,13 +65,15 @@ class Game extends React.Component {
       }]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
+      nullcount: this.state.nullcount-1
     });
   }
 
   jumpTo(step){
     this.setState({
       stepNumber: step,
-      xIsNext: (step%2===0)
+      xIsNext: (step%2===0),
+      nullcount: 9-step
     });
   }
 
@@ -91,13 +94,17 @@ class Game extends React.Component {
     let status;
     if (winner) {
       status = 'Winner: ' + winner;
-    } else {
+    } else if(this.state.nullcount>0){
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
+    else{
+      status = 'It is a draw';
+    }
+
     return (
       <div className="game">
         <div className="game-board">
-          <Board squares={current.squares} onClick={(i)=>this.handleClick(i)} />
+          <Board squares={current.squares} onClick={i=>this.handleClick(i)} />
         </div>
         <div className="game-info">
           <div>{status}</div>
