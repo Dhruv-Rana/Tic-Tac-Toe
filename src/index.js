@@ -113,6 +113,20 @@ class Game extends React.Component {
           <div>{status}</div>
           <ol>{moves}</ol>
         </div>
+        <div>
+          <button onClick={
+            () => {
+              this.setState({
+                history: [{squares: Array(9).fill(null)}],
+                xIsNext: true,
+                stepNumber: 0,
+                nullcount: 9
+              });
+            }
+          }>
+            Reset Game
+          </button>
+        </div>
       </div>
     );
   }
