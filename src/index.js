@@ -47,7 +47,7 @@ class Game extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      history: [{squares: Array(9).fill(null)}],
+      history: [{squares: Array(9).fill(null), clicked: {col: null, row:null} }],
       xIsNext: true,
       stepNumber: 0,
       nullcount: 9,
@@ -66,6 +66,7 @@ class Game extends React.Component {
     this.setState({
       history: history.concat([{
         squares: squares,
+        clicked: {col: i%3 + 1, row: Math.floor(i/3) + 1}
       }]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
@@ -106,10 +107,19 @@ class Game extends React.Component {
           <button onClick={()=>this.jumpTo(move)} id={move+10}>{desc}</button>
         </li>
       );
-    });
+    }); 
+
+    const clicks = history.slice(1,history.length).map( (step,move) => {
+      return (
+        <li key={move}>
+          ({step.clicked.col},{step.clicked.row})
+        </li>
+      );
+    } );
 
     if(!this.state.asc){
       moves.reverse();
+      clicks.reverse();
     }
 
     let status;
@@ -130,13 +140,14 @@ class Game extends React.Component {
         <div className="game-info">
           <div>{status}</div>
           <ul>{moves}</ul>
+          <ul>{clicks}</ul>
         </div>
         <div>
           <button onClick={
             () => {
               this.resetColors();
               this.setState({
-                history: [{squares: Array(9).fill(null)}],
+                history: [{squares: Array(9).fill(null), clicked: {col: null, row:null} }],
                 xIsNext: true,
                 stepNumber: 0,
                 nullcount: 9,
