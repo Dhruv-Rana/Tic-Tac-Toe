@@ -74,6 +74,12 @@ class Game extends React.Component {
 
   jumpTo(step){
     this.resetColors();
+    for(let i=10;i<=20;i++){
+      if(document.getElementById(i)){
+        document.getElementById(i).style.fontWeight=null;
+      }
+    }
+    document.getElementById(step+10).style.fontWeight='bold';
     this.setState({
       stepNumber: step,
       xIsNext: (step%2===0),
@@ -96,7 +102,7 @@ class Game extends React.Component {
       const desc=move?'Go to move #'+move:'Go to game start';
       return (
         <li key={move}>
-          <button onClick={()=>this.jumpTo(move)}>{desc}</button>
+          <button onClick={()=>this.jumpTo(move)} id={move+10}>{desc}</button>
         </li>
       );
     });
