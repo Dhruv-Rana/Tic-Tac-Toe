@@ -50,7 +50,8 @@ class Game extends React.Component {
       history: [{squares: Array(9).fill(null)}],
       xIsNext: true,
       stepNumber: 0,
-      nullcount: 9
+      nullcount: 9,
+      asc: true,
     };
   }
 
@@ -107,6 +108,10 @@ class Game extends React.Component {
       );
     });
 
+    if(!this.state.asc){
+      moves.reverse();
+    }
+
     let status;
     if (winner) {
       status = 'Winner: ' + winner;
@@ -124,7 +129,7 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <ul>{moves}</ul>
         </div>
         <div>
           <button onClick={
@@ -134,11 +139,23 @@ class Game extends React.Component {
                 history: [{squares: Array(9).fill(null)}],
                 xIsNext: true,
                 stepNumber: 0,
-                nullcount: 9
+                nullcount: 9,
+                asc: true
               });
             }
           }>
             Reset Game
+          </button>
+        </div>
+        <div>
+          <button onClick = {
+            () => {
+              this.setState({
+                asc: !this.state.asc
+              })
+            }
+          }>
+            ToggleMoves
           </button>
         </div>
       </div>
