@@ -4,7 +4,7 @@ import './index.css';
 
 function Square(props) {
   return (
-    <button className="square" onClick={props.onClick}>
+    <button className="square" onClick={props.onClick} id={props.id}>
       {props.value}
     </button>
   );
@@ -13,7 +13,7 @@ function Square(props) {
 class Board extends React.Component {
 
   renderSquare(i) {
-    return <Square value={this.props.squares[i]} onClick={()=>this.props.onClick(i)} />;
+    return <Square value={this.props.squares[i]} onClick={()=>this.props.onClick(i)} id={i}/>;
   }
 
   render() {
@@ -73,11 +73,18 @@ class Game extends React.Component {
   }
 
   jumpTo(step){
+    this.resetColors();
     this.setState({
       stepNumber: step,
       xIsNext: (step%2===0),
       nullcount: 9-step
     });
+  }
+
+  resetColors(){
+    for(let i=0;i<9;i++){
+      document.getElementById(i).style.backgroundColor='#fff';
+    }
   }
 
   render() {
@@ -116,6 +123,7 @@ class Game extends React.Component {
         <div>
           <button onClick={
             () => {
+              this.resetColors();
               this.setState({
                 history: [{squares: Array(9).fill(null)}],
                 xIsNext: true,
@@ -153,6 +161,10 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      let button1 = document.getElementById(a);
+      let button2 = document.getElementById(b);
+      let button3 = document.getElementById(c);
+      button1.style.backgroundColor = button2.style.backgroundColor = button3.style.backgroundColor = 'green';
       return squares[a];
     }
   }
