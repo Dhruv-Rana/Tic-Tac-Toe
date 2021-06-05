@@ -146,6 +146,11 @@ class Game extends React.Component {
           <button onClick={
             () => {
               this.resetColors();
+              for(let i=10;i<=20;i++){
+                if(document.getElementById(i)){
+                  document.getElementById(i).style.fontWeight=null;
+                }
+              }
               this.setState({
                 history: [{squares: Array(9).fill(null), clicked: {col: null, row:null} }],
                 xIsNext: true,
